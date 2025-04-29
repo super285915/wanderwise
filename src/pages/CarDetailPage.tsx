@@ -6,10 +6,12 @@ import Counter from '../components/common/Counter';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 import { Car, getCarById } from '../services/dataService';
+import { useNotification } from '../hooks/useNotification';
 
 const CarDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
   const [car, setCar] = useState<Car | null>(null);
   const [pickupDate, setPickupDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
@@ -46,11 +48,20 @@ const CarDetailPage = () => {
 
   const handleBookNow = () => {
     if (!car || !pickupDate || !returnDate) {
-      alert('Please select pickup and return dates');
+      addNotification({
+        message: 'Please select pickup and return dates',
+        type: 'warning',
+        duration: 5000
+      });
       return;
     }
     // In a real app, this would navigate to a booking page
     console.log(`Booking car ${id} for ${days} days from ${pickupDate} to ${returnDate}`);
+    addNotification({
+      message: `Successfully booked ${car.name} for ${days} days`,
+      type: 'success',
+      duration: 5000
+    });
   };
 
   if (isLoading) {

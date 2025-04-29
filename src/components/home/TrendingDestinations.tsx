@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Card from '../common/Card';
 import Rating from '../common/Rating';
 import { trendingDestinations } from '../../data/destinations';
@@ -24,13 +24,13 @@ const TrendingDestinations: React.FC = () => {
               Explore the most popular destinations around the world
             </p>
           </div>
-          <a
-            href="/destinations"
+          <Link
+            to="/destinations"
             className="hidden md:flex items-center text-primary-600 hover:text-primary-700 font-medium"
           >
             View all destinations
             <ArrowRight size={16} className="ml-1" />
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -78,13 +78,13 @@ const TrendingDestinations: React.FC = () => {
         </div>
 
         <div className="mt-8 text-center md:hidden">
-          <a
-            href="/destinations"
+          <Link
+            to="/destinations"
             className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium"
           >
             View all destinations
             <ArrowRight size={16} className="ml-1" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

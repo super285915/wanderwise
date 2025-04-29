@@ -37,7 +37,7 @@ const Counter: React.FC<CounterProps> = ({
           {label}
         </label>
       )}
-      <div className="flex items-center">
+      <div className="flex items-center justify-center">
         <button
           type="button"
           onClick={handleDecrement}

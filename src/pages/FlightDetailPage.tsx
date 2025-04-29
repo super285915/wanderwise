@@ -6,10 +6,12 @@ import Counter from '../components/common/Counter';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 import { Flight, getFlightById } from '../services/dataService';
+import { useNotification } from '../hooks/useNotification';
 
 const FlightDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
   const [flight, setFlight] = useState<Flight | null>(null);
   const [departureDate, setDepartureDate] = useState('');
   const [passengers, setPassengers] = useState(1);
@@ -45,11 +47,20 @@ const FlightDetailPage = () => {
 
   const handleBookNow = () => {
     if (!flight || !departureDate) {
-      alert('Please select departure date');
+      addNotification({
+        message: 'Please select departure date',
+        type: 'warning',
+        duration: 5000
+      });
       return;
     }
     // In a real app, this would navigate to a booking page
     console.log(`Booking flight ${id} for ${passengers} passengers on ${departureDate}`);
+    addNotification({
+      message: `Successfully booked flight to ${flight.to} for ${passengers} passengers`,
+      type: 'success',
+      duration: 5000
+    });
   };
 
   if (isLoading) {
@@ -72,7 +83,7 @@ const FlightDetailPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-16">
           <button
             onClick={() => navigate(-1)}
             className="flex items-center text-white hover:text-gray-200 mb-4"

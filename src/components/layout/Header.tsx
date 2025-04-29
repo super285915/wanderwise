@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, User, LogIn, LogOut, Globe, Map, Plane, Home, Car } from 'lucide-react';
+import { Menu, X, User, LogIn, LogOut, Globe, Map, Plane, Home, Car, Compass } from 'lucide-react';
 import Button from '../common/Button';
 import { useUser } from '../../context/UserContext';
 
@@ -34,6 +34,7 @@ const Header: React.FC = () => {
     { label: 'Hotels', icon: <Home size={16} />, path: '/hotels' },
     { label: 'Cars', icon: <Car size={16} />, path: '/cars' },
     { label: 'Experiences', icon: <Globe size={16} />, path: '/experiences' },
+    { label: 'Activities', icon: <Compass size={16} />, path: '/activities' },
     { label: 'Explore', icon: <Map size={16} />, path: '/explore' },
   ];
 

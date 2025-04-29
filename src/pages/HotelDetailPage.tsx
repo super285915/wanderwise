@@ -6,10 +6,12 @@ import Counter from '../components/common/Counter';
 import LoadingState from '../components/common/LoadingState';
 import ErrorState from '../components/common/ErrorState';
 import { Hotel, getHotelById } from '../services/dataService';
+import { useNotification } from '../hooks/useNotification';
 
 const HotelDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
   const [hotel, setHotel] = useState<Hotel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,11 +49,20 @@ const HotelDetailPage = () => {
 
   const handleBookNow = () => {
     if (!hotel || !checkInDate || !checkOutDate) {
-      alert('Please select check-in and check-out dates');
+      addNotification({
+        message: 'Please select check-in and check-out dates',
+        type: 'warning',
+        duration: 5000
+      });
       return;
     }
     // In a real app, this would navigate to a booking page
     console.log(`Booking hotel ${id} for ${guests} guests from ${checkInDate} to ${checkOutDate}`);
+    addNotification({
+      message: `Successfully booked ${hotel.name} for ${guests} guests`,
+      type: 'success',
+      duration: 5000
+    });
   };
 
   if (isLoading) {
@@ -74,7 +85,7 @@ const HotelDetailPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-16">
           <button
             onClick={() => navigate(-1)}
             className="flex items-center text-white hover:text-gray-200 mb-4"

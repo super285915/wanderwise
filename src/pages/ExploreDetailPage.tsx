@@ -6,10 +6,12 @@ import ErrorState from '../components/common/ErrorState';
 import DatePicker from '../components/common/DatePicker';
 import Counter from '../components/common/Counter';
 import { Explore, getExploreById } from '../services/dataService';
+import { useNotification } from '../hooks/useNotification';
 
 const ExploreDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
   const [explore, setExplore] = useState<Explore | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +21,7 @@ const ExploreDetailPage = () => {
   useEffect(() => {
     const fetchExplore = async () => {
       if (!id) return;
-      
+
       try {
         setIsLoading(true);
         const data = await getExploreById(parseInt(id));
@@ -38,8 +40,12 @@ const ExploreDetailPage = () => {
   const handleBookNow = () => {
     if (!explore) return;
     // Here you would typically handle the booking process
-    // For now, we'll just show an alert
-    alert(`Booking ${explore.name} for ${participants} participants on ${selectedDate}`);
+    // For now, we'll show a notification
+    addNotification({
+      message: `Booking ${explore.name} for ${participants} participants on ${selectedDate}`,
+      type: 'success',
+      duration: 5000
+    });
   };
 
   if (isLoading) {
@@ -92,7 +98,7 @@ const ExploreDetailPage = () => {
             <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">About the Experience</h2>
               <p className="text-gray-600 mb-6">{explore.description}</p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex items-center gap-3">
                   <div className="bg-primary-100 p-3 rounded-full">
@@ -200,4 +206,4 @@ const ExploreDetailPage = () => {
   );
 };
 
-export default ExploreDetailPage; 
+export default ExploreDetailPage;

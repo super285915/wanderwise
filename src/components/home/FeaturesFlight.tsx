@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Clock, ArrowRight, Plane } from 'lucide-react';
 import Card from '../common/Card';
 import Button from '../common/Button';
@@ -9,7 +9,10 @@ const FeaturedFlights: React.FC = () => {
   const navigate = useNavigate();
 
   const handleFlightClick = (id: string) => {
-    navigate(`/flight/${id}`);
+    // Convert string ID from featuredFlights to numeric ID for flights in dataService
+    // The mapping is: '1' -> 1, '2' -> 2, '3' -> 3
+    const numericId = parseInt(id);
+    navigate(`/flights/${numericId}`);
   };
 
   return (
@@ -24,13 +27,13 @@ const FeaturedFlights: React.FC = () => {
               Top flight deals with comfort and convenience
             </p>
           </div>
-          <a
-            href="/flights"
+          <Link
+            to="/flights"
             className="hidden md:flex items-center text-primary-600 hover:text-primary-700 font-medium"
           >
             View all flights
             <ArrowRight size={16} className="ml-1" />
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -58,7 +61,7 @@ const FeaturedFlights: React.FC = () => {
                     <div className="text-lg font-bold">{flight.departureTime}</div>
                     <div className="text-sm text-gray-600">{flight.from}</div>
                   </div>
-                  
+
                   <div className="flex-1 mx-4 flex flex-col items-center">
                     <div className="w-full flex items-center">
                       <div className="h-0.5 flex-1 bg-gray-300"></div>
@@ -70,7 +73,7 @@ const FeaturedFlights: React.FC = () => {
                       {flight.duration}
                     </div>
                   </div>
-                  
+
                   <div className="text-center">
                     <div className="text-lg font-bold">{flight.arrivalTime}</div>
                     <div className="text-sm text-gray-600">{flight.to}</div>
@@ -98,13 +101,13 @@ const FeaturedFlights: React.FC = () => {
         </div>
 
         <div className="mt-8 text-center md:hidden">
-          <a
-            href="/flights"
+          <Link
+            to="/flights"
             className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium"
           >
             View all flights
             <ArrowRight size={16} className="ml-1" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

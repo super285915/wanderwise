@@ -6,10 +6,12 @@ import ErrorState from '../components/common/ErrorState';
 import DatePicker from '../components/common/DatePicker';
 import Counter from '../components/common/Counter';
 import { Activity, getActivityById } from '../services/dataService';
+import { useNotification } from '../hooks/useNotification';
 
 const ActivityDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
   const [activity, setActivity] = useState<Activity | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +21,7 @@ const ActivityDetailPage = () => {
   useEffect(() => {
     const fetchActivity = async () => {
       if (!id) return;
-      
+
       try {
         setIsLoading(true);
         const data = await getActivityById(parseInt(id));
@@ -38,8 +40,12 @@ const ActivityDetailPage = () => {
   const handleBookNow = () => {
     if (!activity) return;
     // Here you would typically handle the booking process
-    // For now, we'll just show an alert
-    alert(`Booking ${activity.name} for ${participants} participants on ${selectedDate}`);
+    // For now, we'll show a notification
+    addNotification({
+      message: `Booking ${activity.name} for ${participants} participants on ${selectedDate}`,
+      type: 'success',
+      duration: 5000
+    });
   };
 
   if (isLoading) {
@@ -92,7 +98,7 @@ const ActivityDetailPage = () => {
             <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">About the Activity</h2>
               <p className="text-gray-600 mb-6">{activity.description}</p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex items-center gap-3">
                   <div className="bg-primary-100 p-3 rounded-full">
@@ -210,4 +216,4 @@ const ActivityDetailPage = () => {
   );
 };
 
-export default ActivityDetailPage; 
+export default ActivityDetailPage;
